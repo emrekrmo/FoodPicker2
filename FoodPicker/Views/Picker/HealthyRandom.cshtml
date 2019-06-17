@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "HealthyRandom";
+}
+
+<div class="widget has-shadow">
+    <div class="widget-header bordered no-actions d-flex align-items-center">
+        <h4>Don't worry about calories. We got your back!</h4>
+    </div>
+    <div class="widget-body">
+        <div class="table-responsive">
+            <table id="sorting-table" class="table mb-0">
+                <thead>
+                    <tr>
+                        <th>Food Name</th>
+                        <th>Restaurant</th>
+                        <th>Price</th>
+                        <th>Healty</th>
+                        <th><span style="width:100px;">Food Type</span></th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            @if (ViewBag.RandomFood.ImageURL != null)
+                            {
+                                <a data-toggle="modal" data-target="#myModal-@ViewBag.RandomFood.Id">
+                                    <i class="la la-camera la-lg"></i>
+                                </a>
+                                <div class="modal" id="myModal-@ViewBag.RandomFood.Id">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <img src="/Content/Uploads/@ViewBag.RandomFood.ImageURL" height="170" width="170" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @ViewBag.RandomFood.FoodName
+                        </td>
+                        <td>@ViewBag.RandomFood.Restaurant.RestaurantName</td>
+                        <td>@ViewBag.RandomFood.Price</td>
+                        <td>
+                            @if (ViewBag.RandomFood.IsHealty)
+                            {
+                                <span class="la la-heart-o"></span>
+                            }
+                        </td>
+                        <td><span style="width:100px;"><span class="badge-text badge-text-small info">@ViewBag.RandomFood.FoodType</span></span></td>
+                        <td class="td-actions"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

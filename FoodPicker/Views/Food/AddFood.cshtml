@@ -1,0 +1,235 @@
+﻿@using Entity
+@model  Food
+
+@{
+    ViewBag.Title = "AddFood";
+}
+
+<div class="widget has-shadow">
+    <div class="widget-header bordered no-actions d-flex align-items-center">
+        <h4>Add Food</h4>
+    </div>
+    <div class="widget-body">
+        <form action="/Food/AddFood" method="post" enctype="multipart/form-data">
+            <div class="form-group row d-flex align-items-center mb-5">
+                <label for="FoodName" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Food Name</label>
+                <div class="col-lg-5">
+                    <input type="text" name="FoodName" class="form-control" placeholder="Food Name">
+                </div>
+            </div>
+            <div class="form-group row d-flex align-items-center mb-5">
+                <label for="Price" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Price</label>
+                <div class="col-lg-5">
+                    <input type="text" name="Price" class="form-control" placeholder="Price">
+                </div>
+            </div>
+            <div class="form-group row d-flex align-items-center mb-5">
+                <label for="RestaurantId" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Restaurant</label>
+                <div class="col-lg-5">
+                    <div class="select">
+                        <select name="RestaurantId" class="custom-select form-control" required>
+                            <option value="">Select a restaurant</option>
+                            @foreach (var restaurant in ViewBag.restaurantList)
+                            {
+                                <option value="@restaurant.Value">@restaurant.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row mb-5">
+                <label for="IsHealty" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Healty Food</label>
+                <div class="col-lg-5">
+                    <div class="custom-control custom-checkbox styled-checkbox">
+                        <input class="custom-control-input" type="checkbox" name="IsHealty" id="IsHealty" value="true">
+                        <label class="custom-control-descfeedback" for="IsHealty"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row mb-5">
+                <label for="FoodType" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Food Type</label>
+                <div class="col-sm-2">
+                    @foreach (var foodtype in ViewBag.foodTypes)
+                    {
+                        <div class="col-lg-2">
+                            <div class="custom-control custom-radio styled-radio mb-3">
+                                <input class="custom-control-input" type="radio" name="FoodType" id="@foodtype.Value" value="@foodtype.Text">
+                                <label class="custom-control-descfeedback" for="@foodtype.Value">@foodtype.Text</label>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="form-group row mb-5">
+                <label for="Image" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Image</label>
+                <div class="col-sm-2">
+                    @*<input name="ImageFile" type="file" id="file" />*@
+
+                    <input name="ImageFile" type="file" id="imageBrowes" />
+
+                </div>
+                <div class="col-sm-2">
+
+                    <div id="imgPreview" class="thumbnail" style="display:none">
+                        <img class="img-responsive" id="targetImg" />
+                        <div class="caption">
+                            <a href="#" onclick="ClearPreview()"><i class="glyphicon glyphicon-trash"></i></a>
+                            <span id="description"></span>
+                        </div>
+                    </div>
+
+                    @*<img src="" id="picture" />*@
+                </div>
+            </div>
+            <div class="col-lg-9 d-flex justify-content-lg-end">
+                <button class="btn btn-gradient-01" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#imageBrowes").change(function () {
+
+            var File = this.files;
+
+            if (File && File[0]) {
+                ReadImage(File[0]);
+            }
+
+        })
+
+
+    })
+
+
+    var ReadImage = function (file) {
+
+        var reader = new FileReader;
+        var image = new Image;
+
+        reader.readAsDataURL(file);
+        reader.onload = function (_file) {
+
+            image.src = _file.target.result;
+            image.onload = function () {
+
+                var height = this.height;
+                var width = this.width;
+                var type = file.type;
+                var size = ~~(file.size / 1024) + "KB";
+
+                $("#targetImg").attr('src', _file.target.result);
+                $("#description").text("Size:" + size + ", " + height + "X " + width + ", " + type + "");
+                $("#imgPreview").show();
+
+            }
+
+        }
+
+    }
+
+    var ClearPreview = function () {
+        $("#imageBrowes").val('');
+        $("#description").text('');
+        $("#imgPreview").hide();
+
+    }
+
+</script>
+
+@*<script>
+
+
+    $(document).ready(function () {
+        $("#file").on("change", function () {
+            const files = this.files;
+            console.log(files);
+
+            if (files.length > 0) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#picture').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(files[0]);
+            }
+        })
+    });
+</script>*@
+
+
+
+
+@*<div class="widget has-shadow">
+        <div class="widget-header bordered no-actions d-flex align-items-center">
+            <h4>Add Food</h4>
+        </div>
+        <div class="widget-body">
+            @using (Html.BeginForm())
+            {
+                <div class="form-group row d-flex align-items-center mb-5">
+                    <label for="FoodName" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Food Name</label>
+                    <div class="col-lg-5">
+                        @Html.TextBoxFor(x => x.FoodName, new { @class = "form-control", placeholder = "Food Name" })
+                    </div>
+                </div>
+                <div class="form-group row d-flex align-items-center mb-5">
+                    <label for="Price" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Price</label>
+                    <div class="col-lg-5">
+                        @Html.TextBoxFor(x => x.Price, new { @class = "form-control", placeholder = "Price" })
+                    </div>
+                </div>
+                <div class="form-group row d-flex align-items-center mb-5">
+                    <label for="RestaurantId" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Restaurant</label>
+                    <div class="col-lg-5">
+                        <div class="select">
+                            <select name="RestaurantId" class="custom-select form-control" required>
+                                <option value="">Select a restaurant</option>
+                                @foreach (var restaurant in ViewBag.restaurantList)
+                                {
+                                    <option>@restaurant.Text</option>
+                                }
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select an option
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-5">
+                    <label for="IsHealty" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Healty Food</label>
+                    <div class="col-lg-5">
+                        <div class="custom-control custom-checkbox styled-checkbox">
+                            <input class="custom-control-input" type="checkbox" name="IsHealty" id="check-1">
+                            <label class="custom-control-descfeedback" for="check-1"></label>
+                            <div class="invalid-feedback">
+                                Tick me please!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-5">
+                    <label for="FoodType" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Food Type</label>
+                    <div class="col-sm-2">
+                        @foreach (var foodtype in ViewBag.foodTypes)
+                        {
+                            <div class="col-lg-2">
+                                <div class="custom-control custom-radio styled-radio mb-3">
+                                    <input class="custom-control-input" type="radio" name="FoodType" id="@foodtype.Value">
+                                    <label class="custom-control-descfeedback" for="@foodtype.Value">@foodtype.Text</label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col-lg-9 d-flex justify-content-lg-end">
+                    <button type="submit" value="Submit" class="btn btn-gradient-01">Submit</button>
+                </div>
+            }
+        </div>
+        }
+    </div>*@

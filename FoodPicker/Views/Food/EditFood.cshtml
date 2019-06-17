@@ -1,0 +1,87 @@
+﻿@using Entity
+@model  Food
+
+@{
+    ViewBag.Title = "EditFood";
+}
+
+<div class="widget has-shadow">
+    <div class="widget-header bordered no-actions d-flex align-items-center">
+        <h4>Edit Food</h4>
+    </div>
+    <div class="widget-body">
+        <form action="/Food/EditFood" method="post">
+            <input name="Id" type="hidden" value="@Model.Id" />
+            <div class="form-group row d-flex align-items-center mb-5">
+                <label for="FoodName" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Food Name</label>
+                <div class="col-lg-5">
+                    <input type="text" name="FoodName" class="form-control" value="@Model.FoodName">
+                </div>
+            </div>
+            <div class="form-group row d-flex align-items-center mb-5">
+                <label for="Price" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Price</label>
+                <div class="col-lg-5">
+                    <input type="text" name="Price" class="form-control" value="@Model.Price">
+                </div>
+            </div>
+            <div class="form-group row d-flex align-items-center mb-5">
+                <label for="RestaurantId" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Restaurant</label>
+                <div class="col-lg-5">
+                    <div class="select">
+                        <select name="RestaurantId" class="custom-select form-control">
+                            <option value="">Select a restaurant</option>
+                            @foreach (var restaurant in ViewBag.restaurantList)
+                            {
+                                if (restaurant.Value == Model.RestaurantId.ToString())
+                                {
+                                    <option value="@restaurant.Value" selected>@restaurant.Text</option>
+                                }
+                                <option value="@restaurant.Value">@restaurant.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row mb-5">
+                <label for="IsHealty" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Healty Food</label>
+                <div class="col-lg-5">
+                    <div class="custom-control custom-checkbox styled-checkbox">
+                        @if (Model.IsHealty)
+                        {
+                            <input class="custom-control-input" type="checkbox" name="IsHealty" id="IsHealty" value="true" checked>
+                        }
+                        else
+                        {
+                            <input class="custom-control-input" type="checkbox" name="IsHealty" id="IsHealty" value="true">
+                        }
+                        <label class="custom-control-descfeedback" for="IsHealty"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row mb-5">
+                <label for="FoodType" class="col-lg-4 form-control-label d-flex justify-content-lg-end">Food Type</label>
+                <div class="col-sm-2">
+                    @foreach (var foodtype in ViewBag.foodTypes)
+                    {
+                        <div class="col-lg-2">
+                            <div class="custom-control custom-radio styled-radio mb-3">
+                                @if (foodtype.Text == Model.FoodType.ToString())
+                                {
+                                    <input class="custom-control-input" type="radio" name="FoodType" id="@foodtype.Value" value="@foodtype.Text" checked>
+                                }
+                                else
+                                {
+                                    <input class="custom-control-input" type="radio" name="FoodType" id="@foodtype.Value" value="@foodtype.Text">
+                                }
+                                <label class="custom-control-descfeedback" for="@foodtype.Value">@foodtype.Text</label>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-9 d-flex justify-content-lg-end">
+                <button class="btn btn-gradient-01" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

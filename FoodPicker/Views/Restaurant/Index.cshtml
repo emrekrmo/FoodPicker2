@@ -1,0 +1,63 @@
+﻿@using Entity
+@model  IEnumerable<Restaurant>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="widget has-shadow">
+    <div class="widget-header bordered no-actions d-flex align-items-center">
+        <h4>Restaurant List</h4>
+    </div>
+    <div class="widget-body">
+        <div class="table-responsive">
+            <table id="sorting-table" class="table mb-0">
+                <thead>
+                    <tr>
+                        <th>Restaurant Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var restaurant in Model)
+                    {
+                        <tr>
+                            <td>@restaurant.RestaurantName</td>
+                            <td class="td-actions">
+                                <a href="/Restaurant/EditRestaurant/@restaurant.Id"><i class="la la-edit edit"></i></a>
+                                <a href="/Restaurant/DeleteRestaurant/@restaurant.Id"><i class="la la-close delete"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@*<script>
+    //defining events and triggering them is similar ways in jquery
+    //when page loads
+    $(document).ready(function () {
+        //when clicked element with del class
+        $(".delete").click(function () {
+            var clicked = $(this);
+            var deleteid = clicked.attr("id");
+            if (confirm("Are you sure?")) {
+                $.ajax({
+                    url: "/Restaurant/Delete/" + deleteid, success: function () {
+                        //sweet alert //like alert with buble
+                        //alert("Deleted");
+                        clicked.parent().parent().hide("slow");
+                        //speed options: fast, normal and slow
+                        //disapear effects: hide, slideUp of fadeOut
+                        //clicked.prev().hide("slow"); //if the button is not in <li>
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+            }
+        });
+    });
+</script>*@

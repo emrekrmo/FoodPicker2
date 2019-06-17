@@ -1,0 +1,29 @@
+﻿@using Entity
+@model  Restaurant
+
+@{
+    ViewBag.Title = "AddRestaurant";
+}
+
+<div class="widget has-shadow">
+    <div class="widget-header bordered no-actions d-flex align-items-center">
+        <h4>Add Restaurant</h4>
+    </div>
+    <div class="widget-body">
+        <form action="/Restaurant/AddRestaurant" method="post">
+            <div class="form-group d-flex flex-column">
+                <div class=" row align-items-center mb-5">
+                    <div class="col-lg-4 form-control-label d-flex justify-content-lg-end">
+                        <label class="col-lg-4 form-control-label d-flex justify-content-lg-end">Restaurant Name</label>
+                    </div>
+                    <div class="col-lg-5">
+                        <input type="text" name="RestaurantName" class="form-control" placeholder="Restaurant Name">
+                    </div>
+                </div>
+                <div class="col-lg-9 d-flex justify-content-lg-end">
+                    <button class="btn btn-gradient-01" type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

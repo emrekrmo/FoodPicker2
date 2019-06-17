@@ -1,0 +1,107 @@
+﻿@using Entity
+@model  IEnumerable<Food>
+
+@{
+    ViewBag.Title = "Index";
+    int i = 0;
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<div class="widget has-shadow">
+    <div class="widget-header bordered no-actions d-flex align-items-center">
+        <h4>Don't argue about trivial matters. Select and chill!</h4>
+    </div>
+    <div class="widget-body">
+        <div class="table-responsive">
+            <table id="sorting-table" class="table mb-0">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Food Name</th>
+                        <th>Restaurant</th>
+                        <th>Price</th>
+                        <th>Healty</th>
+                        <th><span style="width:100px;">Food Type</span></th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var food in Model)
+                    {
+                        <tr>
+                            <td>
+                                @*<div class="col-lg-5">
+                                        <div class="custom-control custom-checkbox styled-checkbox">
+                                            <input class="styled-checkbox" type="checkbox" name="IsHealty" id="IsHealty" data-pid="@food.FoodName">
+                                            <label class="custom-control-descfeedback" for="IsHealty"></label>
+                                        </div>
+                                    </div>*@
+                                <input class="custom-control custom-checkbox styled-checkbox" type="checkbox" data-pid="@food.FoodName">
+                            </td>
+                            <td>@food.FoodName</td>
+                            <td>@food.Restaurant.RestaurantName</td>
+                            <td>@food.Price</td>
+                            <td>
+                                @if (food.IsHealty)
+                                {
+                                    <span class="la la-heart-o"></span>
+                                }
+                            </td>
+                            <td>
+                                <span style="width:100px;"><span class="badge-text badge-text-small info">@food.FoodType</span></span>
+                            </td>
+                            <td></td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <div>
+                <button class="btn btn-gradient-01">Pick</button>
+            </div>
+            <hr />
+            @*<input class=" selectedFood" />*@
+            <div>
+                <input type="text" name="FoodName" class="form-control col-lg-8" placeholder="Food Name">
+            </div>
+            <span style="margin:10px;">
+                @*@ViewBag.RandomFood*@
+                @*@ViewBag.HealthyRandomFood*@
+            </span>
+        </div>
+    </div>
+</div>
+<script>
+    var liste = []
+    $(document).ready(function () {
+        $(".btn").click(function () {
+            $('input[type="checkbox"]').each(function () {
+
+                if (this.checked) {
+                    var food = $(this).attr("data-pid");
+                    liste.push(food)
+                }
+
+            })
+            var selected = liste[Math.floor((Math.random() * liste.length - 1))]
+            $(".form-control").val(selected)
+        })
+    })
+
+
+            //$(document).ready(function () {
+            //    $("#mytable #checkall").click(function () {
+            //        if ($("#mytable #checkall").is(':checked')) {
+            //            $("#mytable input[type=checkbox]").each(function () {
+            //                $(this).prop("checked", true);
+            //            });
+
+            //        } else {
+            //            $("#mytable input[type=checkbox]").each(function () {
+            //                $(this).prop("checked", false);
+            //            });
+            //        }
+            //    });
+            //    $("[data-toggle=tooltip]").tooltip();
+            //});
+
+</script>

@@ -5,92 +5,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.Repos
+namespace BLL
 {
-    public class BaseRepository<TEntity, TKey> where TEntity : class
+    public class BaseRepository<T> : IRepository<T> where T : class
     {
-        FoodContext _db;
-
-        public BaseRepository(FoodContext db)
+        private readonly ApplicationDbContext _db;
+        public BaseRepository(ApplicationDbContext db)
         {
             _db = db;
         }
-
-        public List<TEntity> Listele()
+        public void Create(T entity)
         {
-            return _db.Set<TEntity>().ToList();
+            _db.Set<T>().Add(entity);
         }
 
-        public TEntity IdIleGetir(TKey id)
+        public void Delete(int id)
         {
-            return _db.Set<TEntity>().Find(id);
+            var delete = GetById(id);
+            _db.Set<T>().Remove(delete);
         }
 
-        public void Sil(TKey id)
+        public List<T> GetAll()
         {
-            var silinecek = IdIleGetir(id);
-            _db.Set<TEntity>().Remove(silinecek);
+            return _db.Set<T>().ToList();
         }
 
-        public void Ekle(TEntity yeni)
+        public T GetById(int id)
         {
-            _db.Set<TEntity>().Add(yeni);
+            return _db.Set<T>().Find(id);
         }
 
-        public void Guncelle(TEntity guncel)
+        public void Update(T entity)
         {
-            Type t = typeof(TEntity);
-            string classAdi = t.Name;
-            //var idProp = t.GetProperty(classAdi + "Id");
+            Type t = typeof(T);
+            string className = t.Name;
             var idProp = t.GetProperty("Id");
-            TKey id = (TKey)idProp.GetValue(guncel);
+            int id = (int)idProp.GetValue(entity);
 
-            var eski = IdIleGetir(id);
-            _db.Entry(eski).CurrentValues.SetValues(guncel);
-        }
-
-
-
-        public int RandomGenerator(int val)
-        {
-            Random rnd = new Random();
-            int RandomNum = rnd.Next(0, val);
-            return RandomNum;
-        }
-
-
-
-        public string Recommend()
-        {
-
-
-
-            List<int> positions = new List<int>();
-            List<int> foods = new List<int>();
-
-
-            foreach (var row in _db.Foods)
-            {
-                //foods.Add(row.FoodId);
-                foods.Add(row.Id);
-            }
-
-
-
-            for (int i = 0; i < _db.Foods.Count(); i++)
-            {
-
-
-                positions.Add(i);
-
-            }
-
-            int[] positionsArray = positions.ToArray();
-            int randomPosition = positions[RandomGenerator(positionsArray.Length)];
-            return positionsArray[randomPosition].ToString();
-
-
+            var oldEntity = GetById(id);
+            _db.Entry(oldEntity).CurrentValues.SetValues(entity);
         }
     }
 }
-

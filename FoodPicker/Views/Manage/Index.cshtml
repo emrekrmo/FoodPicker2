@@ -1,0 +1,182 @@
+﻿@model FoodPicker.Models.IndexViewModel
+@{
+    ViewBag.Title = "Manage";
+}
+
+
+
+
+
+<div class="col-xl-9">
+    <div class="widget has-shadow">
+        <div class="widget-header bordered no-actions d-flex align-items-center">
+            <h4>Update Profile</h4>
+        </div>
+        <div class="widget-body">
+            <div class="col-10 ml-auto">
+                <div class="section-title mt-3 mb-3">
+                    <h4>01. Personnal Informations</h4>
+                </div>
+            </div>
+            <form class="form-horizontal">
+                <div class="form-group row d-flex align-items-center mb-5">
+                    <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">Full Name</label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" placeholder="David Green">
+                    </div>
+                </div>
+                <div class="form-group row d-flex align-items-center mb-5">
+                    <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">Email</label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" placeholder="dgreen@mail.com">
+                    </div>
+                </div>
+                <div class="form-group row d-flex align-items-center mb-5">
+                    <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">Phone</label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" placeholder="+00 987 654 32">
+                    </div>
+                </div>
+                <div class="form-group row d-flex align-items-center mb-5">
+                    <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">Website</label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" placeholder="www.website.com">
+                    </div>
+                </div>
+            </form>
+            <div class="col-10 ml-auto">
+                <div class="section-title mt-3 mb-3">
+                    <h4>02. Address Informations</h4>
+                </div>
+            </div>
+            <form class="form-horizontal">
+                <div class="form-group row d-flex align-items-center mb-5">
+                    <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">Address</label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" placeholder="123 Century Blvd">
+                    </div>
+                </div>
+                <div class="form-group row d-flex align-items-center mb-5">
+                    <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">City</label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" placeholder="Los Angeles">
+                    </div>
+                </div>
+                <div class="form-group row d-flex align-items-center mb-5">
+                    <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">State</label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" placeholder="California">
+                    </div>
+                </div>
+                <div class="form-group row d-flex align-items-center mb-5">
+                    <label class="col-lg-2 form-control-label d-flex justify-content-lg-end">Zip</label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" placeholder="90045">
+                    </div>
+                </div>
+            </form>
+            <div class="em-separator separator-dashed"></div>
+            <div class="text-right">
+                <button class="btn btn-gradient-01" type="submit">Save Changes</button>
+                <button class="btn btn-shadow" type="reset">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Change your account settings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Password:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Change your password", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Create", "SetPassword")
+            }
+            ]
+        </dd>
+        <dt>External Logins:</dt>
+        <dd>
+            @Model.Logins.Count [
+            @Html.ActionLink("Manage", "ManageLogins") ]
+        </dd>
+        @*
+            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+
+             See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+
+             Uncomment the following block after you have set up two-factor authentication
+        *@
+        @*
+            <dt>Phone Number:</dt>
+            <dd>
+                @(Model.PhoneNumber ?? "None")
+                @if (Model.PhoneNumber != null)
+                {
+                    <br />
+                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
+                    }
+                }
+                else
+                {
+                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
+                }
+            </dd>
+        *@
+        <dt>Two-Factor Authentication:</dt>
+        <dd>
+            <p>
+                There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                for details on setting up this ASP.NET application to support two-factor authentication.
+            </p>
+            @*@if (Model.TwoFactor)
+                {
+                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Enabled
+                        <input type="submit" value="Disable" class="btn btn-link" />
+                        </text>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Disabled
+                        <input type="submit" value="Enable" class="btn btn-link" />
+                        </text>
+                    }
+                }*@
+        </dd>
+    </dl>
+</div>

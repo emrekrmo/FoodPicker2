@@ -1,0 +1,46 @@
+﻿@using Entity
+@model  IEnumerable<Food>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+
+<div class="widget has-shadow">
+    <div class="widget-header bordered no-actions d-flex align-items-center">
+        <h4>Food Table List</h4>
+    </div>
+    <div class="widget-body">
+        <div class="table-responsive">
+            <table id="sorting-table" class="table mb-0">
+                <thead>
+                    <tr>
+                        <th>Food Name</th>
+                        <th>Restaurant</th>
+                        <th>Price</th>
+                        <th><span style="width:100px;">Food Type</span></th>
+                        <th>Picture</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var food in Model)
+                    {
+                        <tr>
+                            <td>@food.FoodName</td>
+                            <td>@food.Restaurant.RestaurantName</td>
+                            <td>@food.Price</td>
+                            <td><span style="width:100px;"><span class="badge-text badge-text-small info">@food.FoodType</span></span></td>
+                            <td><img src="/Content/Uploads/@food.ImageURL" height="150" width="150" /></td>
+                            <td class="td-actions">
+                                <a href="#"><i class="la la-edit edit"></i></a>
+                                <a href="#"><i class="la la-close delete"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

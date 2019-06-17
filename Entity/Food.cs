@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Entity
 {
@@ -13,21 +13,29 @@ namespace Entity
         public decimal Price { get; set; }
         public bool IsHealty { get; set; }
         public FoodType FoodType { get; set; }
+        public string ImageURL { get; set; }
 
         public int RestaurantId { get; set; }
-        public int UserId { get; set; }
+        public string  ApplicationUserId { get; set; }
 
-        [ForeignKey("RestaurantId")]
+        public ApplicationUser ApplicationUser { get; set; }
         public virtual Restaurant Restaurant { get; set; }
-        [ForeignKey("UserId")]
-        public virtual User User { get; set; }
     }
-
     public enum FoodType
     {
         Hamburger,
         Pizza,
         Döner,
-        Kebap
+        Kebap,
+        Balık,
+        Pasta,
+        Kumpir,
+        Et,
+        Kahvaltı,
+        Cafe,
+        Çin,
+        Japon,
+        Börek,
+        Tavuk
     }
 }
